@@ -12,10 +12,15 @@ public class GPSUpdateReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        //--------------------------------------------------------------------------------------
         Location location = intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
-        Log.e("DEBUG - RECEIVER", "" + location); //TODO : Debug
 
         if(location != null)
-            Toast.makeText(context, "Latitude : " + location.getLatitude() + "Longitude : " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Latitude : " + location.getLatitude() + "\nLongitude : " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        //--------------------------------------------------------------------------------------
+
+        Intent intentService = new Intent(context, GPSService.class);
+        intentService.putExtra(LocationManager.KEY_LOCATION_CHANGED, location);
+        context.startService(intentService);
     }
 }

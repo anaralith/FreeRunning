@@ -9,13 +9,13 @@ import fr.anaralith.freerunning.db.models.Performance;
 public class DAO_Performance extends DAO {
 
     private final static String TABLE_NAME = "performance";
-    private final static String ID = "id";
-    private final static String DISTANCE = "distance";
-    private final static String RYTHME = "rythme_moyen";
-    private final static String VITESSE = "vitesse_moyenne";
-    private final static String TEMPS = "temps";
-    private final static String DENIVELE = "denivele";
-    private final static String DATE = "date";
+    private final static String ID = "id_perf";
+    private final static String DISTANCE = "distance_perf";
+    private final static String RYTHME = "rythmeMoyen_perf";
+    private final static String VITESSE = "vitesseMoyenne_perf";
+    private final static String TEMPS = "temps_perf";
+    private final static String DENIVELE = "denivele_perf";
+    private final static String DATE = "date_perf";
 
     public DAO_Performance(Context context) {
         super(context);

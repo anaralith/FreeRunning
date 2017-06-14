@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import fr.anaralith.freerunning.R;
+import fr.anaralith.freerunning.db.DatabaseHandler;
 import fr.anaralith.freerunning.metier.DataLocationGPS;
 import fr.anaralith.freerunning.metier.GPSUpdateReceiver;
+import fr.anaralith.freerunning.metier.RunningDataProcess;
 
 public class RunningActivity extends Activity {
 
@@ -41,6 +44,7 @@ public class RunningActivity extends Activity {
             @Override
             public void onClick(View v) {
                 dlGPS.disableActivity();
+                Toast.makeText(RunningActivity.this, "Distance : " + new RunningDataProcess(0d, "").calcDistance(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -49,6 +49,14 @@
                 <action android:name="fr.anaralith.freerunning.intent.gps" />
             </intent-filter>
         </receiver>
+        <service android:name=".metier.GPSService"
+            android:exported="true"
+            android:process=":gps" >
+            <intent-filter>
+                <action android:name="fr.anaralith.freerunning.intent.gps" />
+            </intent-filter>
+        </service>
+
 
     </application>
 

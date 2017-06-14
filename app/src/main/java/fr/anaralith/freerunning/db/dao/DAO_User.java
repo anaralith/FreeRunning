@@ -10,9 +10,9 @@ import fr.anaralith.freerunning.db.models.User;
 public class DAO_User extends DAO {
 
     private final static String TABLE_NAME = "user";
-    private final static String ID = "id";
-    private final static String PSEUDO = "pseudo";
-    private final static String MAIL = "mail";
+    private final static String ID = "id_user";
+    private final static String PSEUDO = "pseudo_user";
+    private final static String MAIL = "mail_user";
 
     public DAO_User(Context context) {
         super(context);

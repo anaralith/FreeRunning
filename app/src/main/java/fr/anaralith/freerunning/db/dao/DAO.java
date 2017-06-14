@@ -2,6 +2,7 @@ package fr.anaralith.freerunning.db.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import fr.anaralith.freerunning.db.DatabaseHandler;
 
@@ -21,10 +22,12 @@ public abstract class DAO {
 
     public SQLiteDatabase open(){
         db = handler.getWritableDatabase();
+        Log.e("DevApp", "DAO - db : " + db);
         return db;
     }
 
     public void close(){
+        Log.e("DevApp", "DB : " + db);
         db.close();
     }
 }

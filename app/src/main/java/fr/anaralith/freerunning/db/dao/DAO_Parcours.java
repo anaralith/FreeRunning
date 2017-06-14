@@ -10,8 +10,8 @@ public class DAO_Parcours extends DAO {
 
     private final static String TABLE_NAME = "parcours";
     private final static String ID = "id";
-    private final static String ID_POSITION = "id_position";
-    private final static String ID_PERFORMANCE = "id_performance";
+    private final static String ID_POSITION = "id_position_parcours";
+    private final static String ID_PERFORMANCE = "id_performance_parcours";
 
     public DAO_Parcours(Context context) {
         super(context);

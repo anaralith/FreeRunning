@@ -10,7 +10,7 @@ public class DAO_Parcours extends DAO {
 
     private final static String TABLE_NAME = "parcours";
     private final static String ID = "id";
-    private final static String ID_POSITION = "id_position_parcours";
+    private final static String NAME = "name_parcours";
     private final static String ID_PERFORMANCE = "id_performance_parcours";
 
     public DAO_Parcours(Context context) {
@@ -22,7 +22,7 @@ public class DAO_Parcours extends DAO {
      */
     public void addParcours(Parcours p){
         ContentValues value = new ContentValues();
-        value.put(ID_POSITION, p.getId_position());
+        value.put(NAME, p.getName());
         value.put(ID_PERFORMANCE, p.getId_performance());
         db.insert(TABLE_NAME, null, value); //retour long = numéro de ligne
     }
@@ -39,7 +39,7 @@ public class DAO_Parcours extends DAO {
      */
     public void updateParcours(Parcours p){
         ContentValues value = new ContentValues();
-        value.put(ID_POSITION, p.getId_position());
+        value.put(NAME, p.getName());
         value.put(ID_PERFORMANCE, p.getId_performance());
         db.update(TABLE_NAME, value, ID + "= ?",new String[]{String.valueOf(p.getId())});
     }
@@ -50,14 +50,14 @@ public class DAO_Parcours extends DAO {
      */
     public Parcours getParcours(long id){
         Parcours dbParcours = null;
-        Cursor c = db.rawQuery("SELECT " + ID_POSITION + ","
+        Cursor c = db.rawQuery("SELECT " + NAME + ","
                 + ID_PERFORMANCE + "FROM " + TABLE_NAME + " WHERE " + ID + "= ?", new String[]{String.valueOf(id)});
 
         while(c.moveToNext()){
-            int id_position = c.getInt(0);
+            String name = c.getString(0);
             int id_performance = c.getInt(1);
 
-            dbParcours = new Parcours(id, id_position, id_performance);
+            dbParcours = new Parcours(id, id_performance, name);
         }
         c.close();
 

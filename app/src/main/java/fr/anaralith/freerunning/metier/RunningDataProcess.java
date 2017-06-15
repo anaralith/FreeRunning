@@ -40,7 +40,7 @@ public class RunningDataProcess {
 
         try {
             dbPosition.open();
-            listPosition = dbPosition.getAllPosition();
+            //listPosition = dbPosition.getAllPosition();
 
         } catch (Exception e){
             e.printStackTrace();

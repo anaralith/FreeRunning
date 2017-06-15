@@ -13,10 +13,14 @@ public class DAO_Position extends DAO {
 
     private final static String TABLE_NAME = "position";
     private final static String ID = "id_position";
+    private final static String ID_PARCOURS = "id_parcours";
     private final static String LATITUDE = "latitude_position";
     private final static String LONGITUDE = "longitude_position";
+    private final static String DATE = "date_position";
+
     private final static String SELECT = "SELECT " + LATITUDE + ","
-            + LONGITUDE + " FROM "
+            + LONGITUDE + ","
+            + DATE + " FROM "
             + TABLE_NAME;
 
     public DAO_Position(Context context) {
@@ -30,6 +34,8 @@ public class DAO_Position extends DAO {
         ContentValues value = new ContentValues();
         value.put(LATITUDE, p.getLatitude_position());
         value.put(LONGITUDE, p.getLongitude_position());
+        value.put(DATE, p.getDate_position());
+        value.put(ID_PARCOURS, p.getId_parcours());
         db.insert(TABLE_NAME, null, value); //retour long = numéro de ligne
     }
 
@@ -50,29 +56,16 @@ public class DAO_Position extends DAO {
         db.update(TABLE_NAME, value, ID + "= ?",new String[]{String.valueOf(p.getId_position())});
     }
 
-    /**
-     * @param id the id of the position to search
-     * @return the position find
-     */
-    public Position getPosition(long id){
-        Position dbPosition = null;
-        Cursor c = db.rawQuery("SELECT " + LATITUDE + "," + LONGITUDE + " FROM " + TABLE_NAME + " WHERE " + ID + "= ?", new String[]{String.valueOf(id)});
-
-        while(c.moveToNext()){
-            dbPosition = new Position(c.getDouble(0), c.getDouble(1));
-            dbPosition.setId_position(id);
-        }
-        c.close();
-
-        return dbPosition;
-    }
-
-    public List<Position> getAllPosition(){
+    public List<Position> getPositionByIdParcours(long id_parcours){
         List<Position> listPosition = new ArrayList<>();
-        Cursor c = db.rawQuery(SELECT, new String[]{});
+        Cursor c = db.rawQuery(SELECT + " WHERE " + ID_PARCOURS + "= ?", new String[]{String.valueOf(id_parcours)});
 
         while(c.moveToNext()){
-            listPosition.add(new Position(c.getDouble(0), c.getDouble(1)));
+            double latitude = c.getDouble(0);
+            double longitude = c.getDouble(1);
+            String date = c.getString(2);
+
+            listPosition.add(new Position(latitude, longitude, date, id_parcours));
         }
         c.close();
 

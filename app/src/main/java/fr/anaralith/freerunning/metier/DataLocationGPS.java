@@ -40,7 +40,7 @@ public class DataLocationGPS {
     //Start GPSReceiver and GPSService
     public void enableActivity(String nameParcours, String date) {
         long id_parcours = createParcours(nameParcours);
-        Log.e("DevApp", "DataLocationGPS - Id parcours : " + id_parcours);
+        Log.i("DevApp", "DataLocationGPS - Id parcours : " + id_parcours);
 
         //Receiver
         Intent intentReceiver = new Intent(context, GPSUpdateReceiver.class);

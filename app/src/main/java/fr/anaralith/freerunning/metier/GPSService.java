@@ -20,7 +20,7 @@ public class GPSService extends IntentService {
     public GPSService(){
         super("Default");
         this.dbPosition = new DAO_Position(this);
-        Log.e("DevApp", "Service - Constructeur OK ");
+        Log.i("DevApp", "Service - Constructeur OK ");
     }
 
     /**
@@ -36,6 +36,7 @@ public class GPSService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         Location location = intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
+        Log.e("DevApp", "GPSService - location : " + location);
         long id_parcours = intent.getLongExtra(ID_PARCOURS, 0);
         String date = intent.getStringExtra(DATE_COORDONNEES);
 

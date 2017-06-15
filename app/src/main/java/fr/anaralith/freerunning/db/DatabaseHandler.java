@@ -10,6 +10,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String POSITION_KEY = "id_position";
     private static final String POSITION_LATITUDE = "latitude_position";
     private static final String POSITION_LONGITUDE = "longitude_position";
+    private static final String POSITION_DATE = "date_position";
+    private static final String POSITION_PARCOURS = "id_parcours";
 
     private static final String PARCOURS_TABLE_NAME = "parcours";
     private static final String PARCOURS_KEY = "id_parcours";
@@ -20,7 +22,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             "CREATE TABLE " + POSITION_TABLE_NAME + " (" +
                     POSITION_KEY + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
                     POSITION_LATITUDE + " REAL NOT NULL, " +
-                    POSITION_LONGITUDE + " REAL NOT NULL);";
+                    POSITION_LONGITUDE + " REAL NOT NULL, " +
+                    POSITION_PARCOURS + " INTEGER NOT NULL," +
+                    POSITION_DATE + " TEXT NOT NULL" +
+                    ");";
     private static final String PARCOURS_TABLE_CREATE =
             "CREATE TABLE " + PARCOURS_TABLE_NAME + " (" +
                     PARCOURS_KEY + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +

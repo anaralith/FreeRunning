@@ -21,7 +21,7 @@ public class GPSUpdateReceiver extends BroadcastReceiver {
             Toast.makeText(context, "Latitude : " + location.getLatitude() + "\nLongitude : " + location.getLongitude(), Toast.LENGTH_SHORT).show();
         //--------------------------------------------------------------------------------------
 
-        Intent intentService = new Intent(context, GPSService.class);
+        Intent intentService = new Intent(intent);
         intentService.setClass(context, GPSService.class);
         context.startService(intentService);
     }

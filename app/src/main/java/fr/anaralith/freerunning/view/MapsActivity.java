@@ -40,7 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         registerReceiver(receiverGPS, filtre);
 
         dlGPS = new DataLocationGPS(this);
-        dlGPS.enableActivity();
 
 
     }

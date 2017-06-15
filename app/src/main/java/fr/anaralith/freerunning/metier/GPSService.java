@@ -1,7 +1,6 @@
 package fr.anaralith.freerunning.metier;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -10,6 +9,9 @@ import android.util.Log;
 
 import fr.anaralith.freerunning.db.dao.DAO_Position;
 import fr.anaralith.freerunning.db.models.Position;
+
+import static fr.anaralith.freerunning.metier.DataLocationGPS.DATE_COORDONNEES;
+import static fr.anaralith.freerunning.metier.DataLocationGPS.ID_PARCOURS;
 
 public class GPSService extends IntentService {
 
@@ -34,16 +36,15 @@ public class GPSService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         Location location = intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
-        Log.e("DevApp", "Service - Maj GPS : " + location);
+        long id_parcours = intent.getLongExtra(ID_PARCOURS, 0);
+        String date = intent.getStringExtra(DATE_COORDONNEES);
 
         //Enregistre dans SQLite les coordonnées
         if(location != null){
-            Log.e("DevApp", "Service - DbPosition : " + dbPosition);
             try {
                 dbPosition.open();
-                Position position = new Position(location.getLatitude(), location.getLongitude());
+                Position position = new Position(location.getLatitude(), location.getLongitude(), date, id_parcours);
                 dbPosition.addPosition(position);
-                Log.e("DevApp", "Service - DbPosition 1 : " + dbPosition);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

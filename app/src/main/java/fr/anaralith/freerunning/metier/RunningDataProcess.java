@@ -40,12 +40,13 @@ public class RunningDataProcess {
 
         try {
             dbPosition.open();
-            //listPosition = dbPosition.getAllPosition();
+            listPosition = dbPosition.getPositionByIdParcours(0);
 
         } catch (Exception e){
             e.printStackTrace();
-        }  {
-            dbPosition.close();
+        } finally {
+            if(dbPosition != null)
+                dbPosition.close();
         }
         
         if(listPosition != null){

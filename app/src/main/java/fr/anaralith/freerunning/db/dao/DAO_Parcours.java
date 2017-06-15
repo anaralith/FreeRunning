@@ -13,6 +13,8 @@ public class DAO_Parcours extends DAO {
     private final static String NAME = "name_parcours";
     private final static String ID_PERFORMANCE = "id_performance_parcours";
 
+    private final static String LAST_AI_ID = "SELECT last_insert_rowid()";
+
     public DAO_Parcours(Context context) {
         super(context);
     }
@@ -20,11 +22,18 @@ public class DAO_Parcours extends DAO {
     /**
      * @param p the Performance to add in db
      */
-    public void addParcours(Parcours p){
+    public int addParcours(Parcours p){
         ContentValues value = new ContentValues();
         value.put(NAME, p.getName());
         value.put(ID_PERFORMANCE, p.getId_performance());
         db.insert(TABLE_NAME, null, value); //retour long = numéro de ligne
+
+        Cursor c = db.rawQuery(LAST_AI_ID, new String[]{});
+        while(c.moveToNext()){
+            return c.getInt(0);
+        }
+
+        return 0;
     }
 
     /**
@@ -57,7 +66,9 @@ public class DAO_Parcours extends DAO {
             String name = c.getString(0);
             int id_performance = c.getInt(1);
 
-            dbParcours = new Parcours(id, id_performance, name);
+            dbParcours = new Parcours(name);
+            dbParcours.setId(id);
+            dbParcours.setId_performance(id_performance);
         }
         c.close();
 

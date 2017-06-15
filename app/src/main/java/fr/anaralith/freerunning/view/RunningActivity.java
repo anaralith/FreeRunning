@@ -3,13 +3,13 @@ package fr.anaralith.freerunning.view;
 import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import fr.anaralith.freerunning.R;
-import fr.anaralith.freerunning.db.DatabaseHandler;
 import fr.anaralith.freerunning.metier.DataLocationGPS;
 import fr.anaralith.freerunning.metier.GPSUpdateReceiver;
 import fr.anaralith.freerunning.metier.RunningDataProcess;
@@ -35,7 +35,8 @@ public class RunningActivity extends Activity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dlGPS.enableActivity();
+                Calendar c = Calendar.getInstance();
+                dlGPS.enableActivity("Parcours", c.getTime().toString());
             }
         });
 

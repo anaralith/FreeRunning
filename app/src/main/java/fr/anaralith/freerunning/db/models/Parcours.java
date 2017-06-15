@@ -7,9 +7,7 @@ public class Parcours {
     private String name_parcours;
 
 
-    public Parcours(long id_parcours, long id_performance_parcours, String name_parcours) {
-        this.id_parcours = id_parcours;
-        this.id_performance_parcours = id_performance_parcours;
+    public Parcours(String name_parcours) {
         this.name_parcours = name_parcours;
     }
 

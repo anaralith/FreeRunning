@@ -10,17 +10,17 @@ import android.util.Log;
 import fr.anaralith.freerunning.db.dao.DAO_Position;
 import fr.anaralith.freerunning.db.models.Position;
 
+import static fr.anaralith.freerunning.metier.DataLocationGPS.ACTION_GPS;
+import static fr.anaralith.freerunning.metier.DataLocationGPS.ACTION_STOPGPS;
 import static fr.anaralith.freerunning.metier.DataLocationGPS.DATE_COORDONNEES;
 import static fr.anaralith.freerunning.metier.DataLocationGPS.ID_PARCOURS;
 
 public class GPSService extends IntentService {
-
     private DAO_Position dbPosition = null;
 
     public GPSService(){
         super("Default");
         this.dbPosition = new DAO_Position(this);
-        Log.i("DevApp", "Service - Constructeur OK ");
     }
 
     /**
@@ -35,23 +35,35 @@ public class GPSService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Location location = intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
-        Log.e("DevApp", "GPSService - location : " + location);
         long id_parcours = intent.getLongExtra(ID_PARCOURS, 0);
-        String date = intent.getStringExtra(DATE_COORDONNEES);
 
-        //Enregistre dans SQLite les coordonnées
-        if(location != null){
-            try {
-                dbPosition.open();
-                Position position = new Position(location.getLatitude(), location.getLongitude(), date, id_parcours);
-                dbPosition.addPosition(position);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                dbPosition.close();
+        if(intent.getAction() == ACTION_GPS){
+
+            Location location = intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
+            String date = intent.getStringExtra(DATE_COORDONNEES);
+
+            //Enregistre dans SQLite les coordonnées
+            if(location != null){
+                try {
+                    dbPosition.open();
+                    Position position = new Position(location.getLatitude(), location.getLongitude(), date, id_parcours);
+                    dbPosition.addPosition(position);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    dbPosition.close();
+                }
             }
+        } else if(intent.getAction() == ACTION_STOPGPS) {
+            //TODO Génération Rapport performance
+            RunningDataProcess performance = new RunningDataProcess(0d, "", this);
+
+            double distance = performance.calcDistance(id_parcours);
+
+            //Stop le service
+            stopSelf();
         }
+
     }
 
     @Override

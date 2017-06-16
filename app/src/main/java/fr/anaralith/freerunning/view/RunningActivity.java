@@ -20,15 +20,15 @@ public class RunningActivity extends Activity {
     private GPSUpdateReceiver receiverGPS;
     private IntentFilter filtre;
 
-    private static final String GPS = "fr.anaralith.freerunning.intent.gps";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
 
-        filtre = new IntentFilter(GPS);
-        receiverGPS = new GPSUpdateReceiver();
+        //filtre = new IntentFilter(GPS);
+        //receiverGPS = new GPSUpdateReceiver();
         dlGPS = new DataLocationGPS(this);
 
         Button startBtn = (Button) findViewById(R.id.startBtn);
@@ -45,7 +45,6 @@ public class RunningActivity extends Activity {
             @Override
             public void onClick(View v) {
                 dlGPS.disableActivity();
-                Toast.makeText(RunningActivity.this, "Distance : " + new RunningDataProcess(0d, "").calcDistance(), Toast.LENGTH_SHORT).show();
             }
         });
     }

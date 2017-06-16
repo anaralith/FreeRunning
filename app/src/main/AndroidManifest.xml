@@ -44,13 +44,16 @@
             <!--</intent-filter>-->
         <!--</activity>-->
         <receiver android:name=".metier.GPSUpdateReceiver"
+            android:exported="false"
             android:process=":remote">
+            <!--<uses-permission android:name="fr.anaralith.freerunning.permission.gps"/>-->
             <intent-filter>
-                <action android:name="fr.anaralith.freerunning.intent.gps" />
+                <action android:name="fr.anaralith.freerunning.intent.action.gps" />
+                <action android:name="fr.anaralith.freerunning.intent.action.stopGPS" />
             </intent-filter>
         </receiver>
+
         <service android:name=".metier.GPSService"
-            android:exported="true"
             android:process=":gps" >
             <intent-filter>
                 <action android:name="fr.anaralith.freerunning.intent.gps" />

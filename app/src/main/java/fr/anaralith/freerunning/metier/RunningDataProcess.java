@@ -1,7 +1,9 @@
 package fr.anaralith.freerunning.metier;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 import java.util.List;
 
@@ -25,14 +27,15 @@ public class RunningDataProcess {
     private double temps;
     private String date;
 
-    public RunningDataProcess(double temps, String date) {
+    public RunningDataProcess(double temps, String date, Context context) {
         this.performance = new Performance();
         this.temps = temps;
         this.date = date;
+        this.dbPosition = new DAO_Position(context);
     }
 
-    //Calcul Distance
-    public float calcDistance(){
+    //Calcul Distance : en metre
+    public float calcDistance(long id_parcours){
         float distance = 0f;
         List<Position> listPosition = null;
         Location startPoint = new Location(LocationManager.GPS_PROVIDER);
@@ -40,7 +43,7 @@ public class RunningDataProcess {
 
         try {
             dbPosition.open();
-            listPosition = dbPosition.getPositionByIdParcours(0);
+            listPosition = dbPosition.getPositionByIdParcours(id_parcours);
 
         } catch (Exception e){
             e.printStackTrace();
@@ -48,7 +51,7 @@ public class RunningDataProcess {
             if(dbPosition != null)
                 dbPosition.close();
         }
-        
+
         if(listPosition != null){
             for(int i=0;i<listPosition.size();i++){
 
@@ -62,6 +65,7 @@ public class RunningDataProcess {
                 }
             }
 
+            Log.i("DevApp", "RunningDataProcess - distance (Km) : " + distance/1000);
             performance.setDistance_perf(distance);
         }
 

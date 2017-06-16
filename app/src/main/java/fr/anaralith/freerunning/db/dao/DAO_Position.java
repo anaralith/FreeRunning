@@ -3,6 +3,7 @@ package fr.anaralith.freerunning.db.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ public class DAO_Position extends DAO {
     private final static String LONGITUDE = "longitude_position";
     private final static String DATE = "date_position";
 
-    private final static String SELECT = "SELECT " + LATITUDE + ","
-            + LONGITUDE + ","
+    private final static String SELECT = "SELECT " + LATITUDE + ", "
+            + LONGITUDE + ", "
             + DATE + " FROM "
             + TABLE_NAME;
 
@@ -58,7 +59,7 @@ public class DAO_Position extends DAO {
 
     public List<Position> getPositionByIdParcours(long id_parcours){
         List<Position> listPosition = new ArrayList<>();
-        Cursor c = db.rawQuery(SELECT + " WHERE " + ID_PARCOURS + "= ?", new String[]{String.valueOf(id_parcours)});
+        Cursor c = db.rawQuery(SELECT + " WHERE " + ID_PARCOURS + " = ?", new String[]{String.valueOf(id_parcours)});
 
         while(c.moveToNext()){
             double latitude = c.getDouble(0);

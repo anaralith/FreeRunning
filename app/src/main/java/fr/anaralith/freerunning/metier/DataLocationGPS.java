@@ -21,7 +21,11 @@ public class DataLocationGPS {
     private PendingIntent pendingGPS;
 
     private DAO_Parcours dbParcours;
+    private long id_parcours;
 
+    private static final String GPS = "fr.anaralith.freerunning.permission.gps";
+    public static final String ACTION_GPS = "fr.anaralith.freerunning.intent.action.gps";
+    public static final String ACTION_STOPGPS = "fr.anaralith.freerunning.intent.action.stopGPS";
     public final static String ID_PARCOURS = "ID_PARCOURS";
     public final static String DATE_COORDONNEES = "DATE_COORDONNEES";
 
@@ -39,13 +43,15 @@ public class DataLocationGPS {
 
     //Start GPSReceiver and GPSService
     public void enableActivity(String nameParcours, String date) {
-        long id_parcours = createParcours(nameParcours);
+        id_parcours = createParcours(nameParcours);
         Log.i("DevApp", "DataLocationGPS - Id parcours : " + id_parcours);
 
         //Receiver
         Intent intentReceiver = new Intent(context, GPSUpdateReceiver.class);
         intentReceiver.putExtra(ID_PARCOURS, id_parcours);
         intentReceiver.putExtra(DATE_COORDONNEES, date);
+        intentReceiver.setAction(ACTION_GPS);
+
         pendingGPS = PendingIntent.getBroadcast(context, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -62,12 +68,13 @@ public class DataLocationGPS {
 
     //Stop GPSReceiver and GPSService
     public void disableActivity(){
-        Intent intentService = new Intent(context, GPSService.class);
-
         if(pendingGPS != null)
             locationManager.removeUpdates(pendingGPS);
 
-        context.stopService(intentService);
+        Intent intentService = new Intent(context, GPSService.class);
+        intentService.setAction(ACTION_STOPGPS);
+        intentService.putExtra(ID_PARCOURS, id_parcours);
+        context.startService(intentService);
     }
 
 //    Ajoute le nouveau parcours à la base

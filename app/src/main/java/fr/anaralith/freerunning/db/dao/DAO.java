@@ -9,7 +9,7 @@ import fr.anaralith.freerunning.db.DatabaseHandler;
 //Permet d'ouvrir, fermer ou recupérer la db
 public abstract class DAO {
     //Version de la DB, à incrémenter si mise à jour de la db
-    protected final static int VERSION_DB = 5;
+    protected final static int VERSION_DB = 6;
     //Nom du fichier représentant la db
     protected  final static String NAME_DB = "FreeRunningDB.db";
 

@@ -64,7 +64,7 @@ public class DAO_Position extends DAO {
         while(c.moveToNext()){
             double latitude = c.getDouble(0);
             double longitude = c.getDouble(1);
-            String date = c.getString(2);
+            long date = c.getLong(2);
 
             listPosition.add(new Position(latitude, longitude, date, id_parcours));
         }

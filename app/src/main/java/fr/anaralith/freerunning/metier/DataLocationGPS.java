@@ -27,7 +27,6 @@ public class DataLocationGPS {
     public static final String ACTION_GPS = "fr.anaralith.freerunning.intent.action.gps";
     public static final String ACTION_STOPGPS = "fr.anaralith.freerunning.intent.action.stopGPS";
     public final static String ID_PARCOURS = "ID_PARCOURS";
-    public final static String DATE_COORDONNEES = "DATE_COORDONNEES";
 
     public DataLocationGPS(Context context) {
         this.context = context;
@@ -42,14 +41,13 @@ public class DataLocationGPS {
     }
 
     //Start GPSReceiver and GPSService
-    public void enableActivity(String nameParcours, String date) {
+    public void enableActivity(String nameParcours) {
         id_parcours = createParcours(nameParcours);
         Log.i("DevApp", "DataLocationGPS - Id parcours : " + id_parcours);
 
         //Receiver
         Intent intentReceiver = new Intent(context, GPSUpdateReceiver.class);
         intentReceiver.putExtra(ID_PARCOURS, id_parcours);
-        intentReceiver.putExtra(DATE_COORDONNEES, date);
         intentReceiver.setAction(ACTION_GPS);
 
         pendingGPS = PendingIntent.getBroadcast(context, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -62,7 +60,6 @@ public class DataLocationGPS {
         //Service
         Intent intentService = new Intent(context, GPSService.class);
         intentService.putExtra(ID_PARCOURS, id_parcours);
-        intentService.putExtra(DATE_COORDONNEES, date);
         context.startService(intentService);
     }
 
@@ -77,7 +74,7 @@ public class DataLocationGPS {
         context.startService(intentService);
     }
 
-//    Ajoute le nouveau parcours à la base
+    //Ajoute le nouveau parcours à la base
     private long createParcours(String nameParcours){
         long id_parcours = 0;
 

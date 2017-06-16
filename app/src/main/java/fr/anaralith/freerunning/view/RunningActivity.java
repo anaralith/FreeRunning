@@ -2,13 +2,16 @@ package fr.anaralith.freerunning.view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 
 import fr.anaralith.freerunning.R;
 import fr.anaralith.freerunning.metier.DataLocationGPS;
 
 public class RunningActivity extends Activity {
+    private Chronometer chronometer;
     private DataLocationGPS dlGPS;
 
     @Override
@@ -18,11 +21,15 @@ public class RunningActivity extends Activity {
 
         dlGPS = new DataLocationGPS(this);
 
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+
         Button startBtn = (Button) findViewById(R.id.startBtn);
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dlGPS.enableActivity("Parcours");
+                dlGPS.startRunning("Parcours");
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
             }
         });
 
@@ -30,7 +37,10 @@ public class RunningActivity extends Activity {
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dlGPS.disableActivity();
+                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                dlGPS.endRunning(time);
+                chronometer.stop();
+
             }
         });
     }

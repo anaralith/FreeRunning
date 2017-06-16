@@ -24,10 +24,11 @@ public class RunningDataProcess {
 
     private Performance performance = null;
 
-    private double temps;
+    private long temps;
     private String date;
+    float distance = 0f;
 
-    public RunningDataProcess(double temps, String date, Context context) {
+    public RunningDataProcess(long temps, String date, Context context) {
         this.performance = new Performance();
         this.temps = temps;
         this.date = date;
@@ -35,8 +36,7 @@ public class RunningDataProcess {
     }
 
     //Calcul Distance : en metre
-    public float calcDistance(long id_parcours){
-        float distance = 0f;
+    public double calcDistance(long id_parcours){
         List<Position> listPosition = null;
         Location startPoint = new Location(LocationManager.GPS_PROVIDER);
         Location endPoint = new Location(LocationManager.GPS_PROVIDER);
@@ -65,13 +65,32 @@ public class RunningDataProcess {
                 }
             }
 
-            Log.i("DevApp", "RunningDataProcess - distance (Km) : " + distance/1000);
+            distance /= 1000;
             performance.setDistance_perf(distance);
         }
 
         return distance;
     }
+
     //Calcul Rythme Moyen
+    public String calcRythmeMoy(double vitesseMoy){
+//        Exemple :
+//        Calcul de l’allure à 11,5 km/h
+//        60/11,5 = 5,217
+//        0,217 x 60 = 13
+        //5,13
+        double rythmeMoy = 60.0/vitesseMoy;
+
+        int minute = new Double(rythmeMoy).intValue();
+        int seconde = (int)((rythmeMoy-minute)*60);
+
+        return "" + minute + "\'" + seconde + "\"";
+    }
+
     //Calcul Vitesse Moyenne
+    public double calcVitesseMoy(double distance, long temps){
+        return (double)Math.round(distance / ((double)temps/60.0/60.0));
+    }
+
     //Calcul Dénivelé
 }

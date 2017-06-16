@@ -27,6 +27,7 @@ public class DataLocationGPS {
     public static final String ACTION_GPS = "fr.anaralith.freerunning.intent.action.gps";
     public static final String ACTION_STOPGPS = "fr.anaralith.freerunning.intent.action.stopGPS";
     public final static String ID_PARCOURS = "ID_PARCOURS";
+    public final static String TIME_RUNNING = "TIME_RUNNING";
 
     public DataLocationGPS(Context context) {
         this.context = context;
@@ -41,7 +42,7 @@ public class DataLocationGPS {
     }
 
     //Start GPSReceiver and GPSService
-    public void enableActivity(String nameParcours) {
+    public void startRunning(String nameParcours) {
         id_parcours = createParcours(nameParcours);
         Log.i("DevApp", "DataLocationGPS - Id parcours : " + id_parcours);
 
@@ -64,13 +65,14 @@ public class DataLocationGPS {
     }
 
     //Stop GPSReceiver and GPSService
-    public void disableActivity(){
+    public void endRunning(long time){
         if(pendingGPS != null)
             locationManager.removeUpdates(pendingGPS);
 
         Intent intentService = new Intent(context, GPSService.class);
         intentService.setAction(ACTION_STOPGPS);
         intentService.putExtra(ID_PARCOURS, id_parcours);
+        intentService.putExtra(TIME_RUNNING, time);
         context.startService(intentService);
     }
 

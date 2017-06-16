@@ -17,6 +17,7 @@ import fr.anaralith.freerunning.db.models.Position;
 import static fr.anaralith.freerunning.metier.DataLocationGPS.ACTION_GPS;
 import static fr.anaralith.freerunning.metier.DataLocationGPS.ACTION_STOPGPS;
 import static fr.anaralith.freerunning.metier.DataLocationGPS.ID_PARCOURS;
+import static fr.anaralith.freerunning.metier.DataLocationGPS.TIME_RUNNING;
 
 public class GPSService extends IntentService {
     private DAO_Position dbPosition = null;
@@ -61,9 +62,20 @@ public class GPSService extends IntentService {
             }
         } else if(intent.getAction() == ACTION_STOPGPS) {
             //TODO Génération Rapport performance
-            RunningDataProcess performance = new RunningDataProcess(0d, "", this);
+            long time = intent.getLongExtra(TIME_RUNNING, 0)/1000; //Seconde
+            Log.i("DevApp", "GPSService - temps (s): " + time);
 
+            RunningDataProcess performance = new RunningDataProcess(time, "", this);
+
+            //Calcul all data performances
             double distance = performance.calcDistance(id_parcours);
+            Log.i("DevApp", "GPSService - distance (Km) : " + distance);
+
+            double vitesseMoy = performance.calcVitesseMoy(distance, time);
+            Log.i("DevApp", "GPSService - Vitesse Moyenne (Km/h) : " + vitesseMoy);
+
+            String rythmeMoy = performance.calcRythmeMoy(vitesseMoy);
+            Log.i("DevApp", "GPSService - Rythme Moyen (min/Km) : " + rythmeMoy);
 
             //Stop le service
             stopSelf();

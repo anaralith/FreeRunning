@@ -74,6 +74,7 @@ public class DataLocationGPS {
         intentService.putExtra(ID_PARCOURS, id_parcours);
         intentService.putExtra(TIME_RUNNING, time);
         context.startService(intentService);
+
     }
 
     //Ajoute le nouveau parcours à la base

@@ -14,7 +14,8 @@ public class DAO_Performance extends DAO {
     private final static String RYTHME = "rythmeMoyen_perf";
     private final static String VITESSE = "vitesseMoyenne_perf";
     private final static String TEMPS = "temps_perf";
-    private final static String DENIVELE = "denivele_perf";
+    private final static String DENIVELE_POSITIF = "denivele_positif_perf";
+    private final static String DENIVELE_NEGATIF = "denivele_negatif_perf";
     private final static String DATE = "date_perf";
 
     public DAO_Performance(Context context) {
@@ -24,15 +25,23 @@ public class DAO_Performance extends DAO {
     /**
      * @param p the Performance to add in db
      */
-    public void addPerformance(Performance p){
+    public int addPerformance(Performance p){
         ContentValues value = new ContentValues();
         value.put(DISTANCE, p.getDistance_perf());
         value.put(RYTHME, p.getRythmeMoyen_perf());
         value.put(VITESSE, p.getVitesseMoyenne_perf());
         value.put(TEMPS, p.getTemps_perf());
-        value.put(DENIVELE, p.getDenivele_perf());
+        value.put(DENIVELE_POSITIF, p.getDenivele_negatif_perf());
+        value.put(DENIVELE_NEGATIF, p.getDenivele_positif_perf());
         value.put(DATE, p.getDate_perf());
         db.insert(TABLE_NAME, null, value); //retour long = numéro de ligne
+
+        Cursor c = db.rawQuery(LAST_AI_ID, new String[]{});
+        while(c.moveToNext()){
+            return c.getInt(0);
+        }
+
+        return 0;
     }
 
     /**
@@ -51,7 +60,8 @@ public class DAO_Performance extends DAO {
         value.put(RYTHME, p.getRythmeMoyen_perf());
         value.put(VITESSE, p.getVitesseMoyenne_perf());
         value.put(TEMPS, p.getTemps_perf());
-        value.put(DENIVELE, p.getDenivele_perf());
+        value.put(DENIVELE_POSITIF, p.getDenivele_negatif_perf());
+        value.put(DENIVELE_NEGATIF, p.getDenivele_positif_perf());
         value.put(DATE, p.getDate_perf());
         db.update(TABLE_NAME, value, ID + "= ?",new String[]{String.valueOf(p.getId_perf())});
     }
@@ -66,7 +76,8 @@ public class DAO_Performance extends DAO {
                 + RYTHME + ","
                 + VITESSE + ","
                 + TEMPS + ","
-                + DENIVELE + ","
+                + DENIVELE_POSITIF + ","
+                + DENIVELE_NEGATIF + ","
                 + DATE + ","
                 + "FROM " + TABLE_NAME + " WHERE " + ID + "= ?", new String[]{String.valueOf(id)});
 
@@ -75,10 +86,11 @@ public class DAO_Performance extends DAO {
             int rythme = c.getInt(1);
             int vitesse = c.getInt(2);
             int temps = c.getInt(3);
-            int denivele = c.getInt(4);
-            String date = c.getString(5);
+            int denivele_positif = c.getInt(4);
+            int denivele_negatif = c.getInt(5);
+            String date = c.getString(6);
 
-            dbPerformance = new Performance(id, distance, rythme, vitesse, temps, denivele, date);
+            dbPerformance = new Performance(id, distance, rythme, vitesse, temps, denivele_positif, denivele_negatif, date);
         }
         c.close();
 

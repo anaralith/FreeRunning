@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
-
 import java.util.List;
 
 import fr.anaralith.freerunning.db.dao.DAO_Parcours;
@@ -18,7 +17,7 @@ import fr.anaralith.freerunning.db.models.Position;
 public class RunningDataProcess {
     private DAO_Parcours dbParcours = null;
     private DAO_Position dbPosition = null;
-    private DAO_Performance dbPerformance = null;
+
     private DAO_User dbUser = null;
     private DAO_UserPerformance dbUserPerformance = null;
 
@@ -33,6 +32,17 @@ public class RunningDataProcess {
         this.temps = temps;
         this.date = date;
         this.dbPosition = new DAO_Position(context);
+
+        performance.setDate_perf(date);
+        performance.setTemps_perf(temps);
+    }
+
+    public Performance getRapport(long id_parcours, List<Position> allPosition){
+        double distance = calcDistance(id_parcours);
+        double vitesseMoy = calcVitesseMoy(distance, temps);
+        calcRythmeMoy(vitesseMoy);
+        calcDenivele(allPosition);
+        return performance;
     }
 
     //Calcul Distance : en metre
@@ -54,7 +64,6 @@ public class RunningDataProcess {
 
         if(listPosition != null){
             for(int i=0;i<listPosition.size();i++){
-
                 if((i + 1) != listPosition.size()){
                     startPoint.setLatitude(listPosition.get(i).getLatitude_position());
                     startPoint.setLongitude(listPosition.get(i).getLongitude_position());
@@ -72,25 +81,57 @@ public class RunningDataProcess {
         return distance;
     }
 
-    //Calcul Rythme Moyen
+    //Calcul Rythme Moyen : retour en seconde
     public String calcRythmeMoy(double vitesseMoy){
-//        Exemple :
-//        Calcul de l’allure à 11,5 km/h
-//        60/11,5 = 5,217
-//        0,217 x 60 = 13
-        //5,13
         double rythmeMoy = 60.0/vitesseMoy;
 
         int minute = new Double(rythmeMoy).intValue();
         int seconde = (int)((rythmeMoy-minute)*60);
 
+        performance.setRythmeMoyen_perf(minute*60 + seconde);
         return "" + minute + "\'" + seconde + "\"";
     }
 
     //Calcul Vitesse Moyenne
     public double calcVitesseMoy(double distance, long temps){
-        return (double)Math.round(distance / ((double)temps/60.0/60.0));
+        double vitesseMoy = (double)Math.round(distance / ((double)temps/60.0/60.0));
+
+        performance.setVitesseMoyenne_perf(vitesseMoy);
+        return vitesseMoy;
     }
 
     //Calcul Dénivelé
+    public long[] calcDenivele(List<Position> allPosition){
+        //Denivele Positif | Negatif
+        long denivele[] = {0, 0};
+        long deniveleTemp = 0;
+        long lastDenivele = 0;
+        boolean firstCheck = true;
+
+        if(allPosition != null){
+            for (Position position : allPosition) {
+                if(firstCheck){
+                    firstCheck = false;
+                    lastDenivele = (long)position.getAlttitude();
+                } else {
+                    deniveleTemp = (long)position.getAlttitude();
+                    lastDenivele -= deniveleTemp;
+
+                    if(lastDenivele > 0){
+                        denivele[0] += lastDenivele;
+                    } else {
+                        denivele[1] += Math.abs(lastDenivele);
+                    }
+
+                    lastDenivele = (long)position.getAlttitude();
+                }
+            }
+        } else {
+            Log.e("DevApp", "RunningDataProcess - allPosition = null");
+        }
+
+        performance.setDenivele_positif_perf(denivele[0]);
+        performance.setDenivele_negatif_perf(denivele[1]);
+        return denivele;
+    }
 }

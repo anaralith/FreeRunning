@@ -9,9 +9,11 @@ import fr.anaralith.freerunning.db.DatabaseHandler;
 //Permet d'ouvrir, fermer ou recupérer la db
 public abstract class DAO {
     //Version de la DB, à incrémenter si mise à jour de la db
-    protected final static int VERSION_DB = 6;
+    protected final static int VERSION_DB = 8;
     //Nom du fichier représentant la db
     protected  final static String NAME_DB = "FreeRunningDB.db";
+
+    protected final static String LAST_AI_ID = "SELECT last_insert_rowid()";
 
     protected DatabaseHandler handler = null;
     protected SQLiteDatabase db = null;

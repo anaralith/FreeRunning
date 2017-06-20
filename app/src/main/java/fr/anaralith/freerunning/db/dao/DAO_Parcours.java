@@ -9,11 +9,9 @@ import fr.anaralith.freerunning.db.models.Parcours;
 public class DAO_Parcours extends DAO {
 
     private final static String TABLE_NAME = "parcours";
-    private final static String ID = "id";
+    private final static String ID = "id_parcours";
     private final static String NAME = "name_parcours";
     private final static String ID_PERFORMANCE = "id_performance_parcours";
-
-    private final static String LAST_AI_ID = "SELECT last_insert_rowid()";
 
     public DAO_Parcours(Context context) {
         super(context);
@@ -60,7 +58,7 @@ public class DAO_Parcours extends DAO {
     public Parcours getParcours(long id){
         Parcours dbParcours = null;
         Cursor c = db.rawQuery("SELECT " + NAME + ","
-                + ID_PERFORMANCE + "FROM " + TABLE_NAME + " WHERE " + ID + "= ?", new String[]{String.valueOf(id)});
+                + ID_PERFORMANCE + " FROM " + TABLE_NAME + " WHERE " + ID + "= ?", new String[]{String.valueOf(id)});
 
         while(c.moveToNext()){
             String name = c.getString(0);

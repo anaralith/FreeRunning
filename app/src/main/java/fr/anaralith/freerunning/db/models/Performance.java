@@ -1,6 +1,9 @@
 package fr.anaralith.freerunning.db.models;
 
-public class Performance {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Performance implements Parcelable{
 
     private long id_perf;
     private double distance_perf;
@@ -44,4 +47,47 @@ public class Performance {
     public void setDate_perf(String date_perf) {this.date_perf = date_perf;}
     public void setDenivele_positif_perf(double denivele_positif_perf) {this.denivele_positif_perf = denivele_positif_perf;}
     public void setDenivele_negatif_perf(double denivele_negatif_perf) {this.denivele_negatif_perf = denivele_negatif_perf;}
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id_perf);
+        dest.writeLong(temps_perf);
+        dest.writeDouble(rythmeMoyen_perf);
+        dest.writeDouble(vitesseMoyenne_perf);
+        dest.writeDouble(distance_perf);
+        dest.writeDouble(denivele_positif_perf);
+        dest.writeDouble(denivele_negatif_perf);
+        dest.writeString(date_perf);
+    }
+
+    public static final Parcelable.Creator<Performance> CREATOR = new Parcelable.Creator<Performance>()
+    {
+        @Override
+        public Performance createFromParcel(Parcel source)
+        {
+            return new Performance(source);
+        }
+
+        @Override
+        public Performance[] newArray(int size)
+        {
+            return new Performance[size];
+        }
+    };
+
+    public Performance(Parcel in) {
+        this.id_perf = in.readLong();
+        this.temps_perf = in.readLong();
+        this.rythmeMoyen_perf = in.readDouble();
+        this.vitesseMoyenne_perf = in.readDouble();
+        this.distance_perf = in.readDouble();
+        this.denivele_positif_perf = in.readDouble();
+        this.denivele_negatif_perf = in.readDouble();
+        this.date_perf = in.readString();
+    }
 }

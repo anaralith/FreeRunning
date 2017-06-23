@@ -1,5 +1,6 @@
 package fr.anaralith.freerunning.metier;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.location.Location;
@@ -22,6 +23,7 @@ import fr.anaralith.freerunning.db.dao.DAO_Position;
 import fr.anaralith.freerunning.db.models.Parcours;
 import fr.anaralith.freerunning.db.models.Performance;
 import fr.anaralith.freerunning.db.models.Position;
+import fr.anaralith.freerunning.view.RunActivity;
 
 import static fr.anaralith.freerunning.metier.DataLocationGPS.ACTION_GPS;
 import static fr.anaralith.freerunning.metier.DataLocationGPS.ACTION_STOPGPS;
@@ -29,12 +31,16 @@ import static fr.anaralith.freerunning.metier.DataLocationGPS.ID_PARCOURS;
 import static fr.anaralith.freerunning.metier.DataLocationGPS.TIME_RUNNING;
 
 public class GPSService extends IntentService {
+    public static final String RAPPORT = "RAPPORT";
+
     private Performance rapport = null;
     private Parcours parcours= null;
 
     private DAO_Position dbPosition = null;
     private DAO_Performance dbPerformance = null;
     private DAO_Parcours dbParcours = null;
+
+    private Activity activity = null;
 
     public GPSService(){
         super("Default");
@@ -87,7 +93,7 @@ public class GPSService extends IntentService {
             //TODO Génération Rapport performance
             long time = intent.getLongExtra(TIME_RUNNING, 0)/1000; //Seconde
 
-            RunningDataProcess performance = new RunningDataProcess(time, "", this);
+            RunningDataProcess performance = new RunningDataProcess(time, String.valueOf(date), this);
 
             List<Position> listPosition = null;
             try {
@@ -102,7 +108,6 @@ public class GPSService extends IntentService {
             }
 
             rapport = performance.getRapport(id_parcours, listPosition);
-            rapport.setDate_perf(String.valueOf(date));
 
             Log.i("DevApp", "GPSService - temps (s): " + rapport.getTemps_perf());
             Log.i("DevApp", "GPSService - distance (Km) : " + rapport.getDistance_perf());
@@ -118,6 +123,11 @@ public class GPSService extends IntentService {
 
             //Stop le service
             //TODO Appel l'activité du rapport !
+            Intent newActivity = new Intent(GPSService.this, RunActivity.class);
+            newActivity.putExtra(RAPPORT, rapport);
+            newActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(newActivity);
+
             stopSelf();
         }
 
@@ -200,5 +210,9 @@ public class GPSService extends IntentService {
         }
 
         return id_performance;
+    }
+
+    public void setActivity(Activity activity){
+        this.activity = activity;
     }
 }

@@ -3,10 +3,14 @@
     package="fr.anaralith.freerunning"
     android:versionCode="1"
     android:versionName="1.0">
+
     <uses-sdk android:minSdkVersion="22" />
 
-    <!--Allow use of GPS-->
+    <!-- Allow use of GPS -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,11 +19,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".view.RunningActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.RunActivity"
+            android:label="@string/title_activity_run">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <!--
@@ -34,27 +45,31 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDxTgd9aKY6kqihqSuBBefLDr" />
 
-        <!--<activity-->
-            <!--android:name=".MapsActivity"-->
-            <!--android:label="@string/title_activity_maps">-->
+        <!-- <activity -->
+        <!-- android:name=".MapsActivity" -->
+        <!-- android:label="@string/title_activity_maps"> -->
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-        <receiver android:name=".metier.GPSUpdateReceiver"
+
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <receiver
+            android:name=".metier.GPSUpdateReceiver"
             android:exported="false"
             android:process=":remote">
-            <!--<uses-permission android:name="fr.anaralith.freerunning.permission.gps"/>-->
+
+            <!-- <uses-permission android:name="fr.anaralith.freerunning.permission.gps"/> -->
             <intent-filter>
                 <action android:name="fr.anaralith.freerunning.intent.action.gps" />
                 <action android:name="fr.anaralith.freerunning.intent.action.stopGPS" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".metier.GPSService"
-            android:process=":gps" >
+        <service
+            android:name=".metier.GPSService"
+            android:process=":gps">
             <intent-filter>
                 <action android:name="fr.anaralith.freerunning.intent.gps" />
             </intent-filter>

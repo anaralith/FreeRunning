@@ -3,6 +3,8 @@ package fr.anaralith.freerunning.metier;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import java.util.List;
 
@@ -15,17 +17,12 @@ import fr.anaralith.freerunning.db.models.Performance;
 import fr.anaralith.freerunning.db.models.Position;
 
 public class RunningDataProcess {
-    private DAO_Parcours dbParcours = null;
     private DAO_Position dbPosition = null;
-
-    private DAO_User dbUser = null;
-    private DAO_UserPerformance dbUserPerformance = null;
-
     private Performance performance = null;
 
     private long temps;
     private String date;
-    float distance = 0f;
+    private float distance = 0f;
 
     public RunningDataProcess(long temps, String date, Context context) {
         this.performance = new Performance();

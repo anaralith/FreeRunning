@@ -4,4 +4,9 @@
     <string name="btnStart">Start</string>
     <string name="btnStop">Stop</string>
     <string name="google_maps_key">AIzaSyDxTgd9aKY6kqihqSuBBefLDr-qzsNH-s8</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_profil">Profil</string>
+    <string name="title_activity">Activité</string>
+    <string name="title_history">Historique</string>
+    <string name="title_activity_run">RunActivity</string>
 </resources>

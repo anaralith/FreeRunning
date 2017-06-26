@@ -8,84 +8,98 @@
     android:orientation="vertical"
     tools:context="fr.anaralith.freerunning.view.RunActivity">
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnCount="2"
-        android:columnOrderPreserved="true"
-        android:orientation="horizontal"
-        android:rowCount="6"
-        android:useDefaultMargins="true">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_distance"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_display_date"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="Distance" />
+            android:gravity="center" />
 
-        <TextView
-            android:id="@+id/tv_display_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            android:columnOrderPreserved="true"
+            android:orientation="horizontal"
+            android:rowCount="6"
+            android:useDefaultMargins="true">
 
-        <TextView
-            android:id="@+id/tv_temps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="Temps" />
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:text="Distance" />
 
-        <TextView
-            android:id="@+id/tv_display_temps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_display_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1" />
 
-        <TextView
-            android:id="@+id/tv_vitesse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"
-            android:text="Vitesse" />
+            <TextView
+                android:id="@+id/tv_temps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Temps" />
 
-        <TextView
-            android:id="@+id/tv_display_vitesse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_display_temps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/tv_rythme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rythme" />
+            <TextView
+                android:id="@+id/tv_vitesse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="0dp"
+                android:text="Vitesse" />
 
-        <TextView
-            android:id="@+id/tv_display_rythme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_display_vitesse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/tv_denivelePositif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Denivelé Positif" />
+            <TextView
+                android:id="@+id/tv_rythme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rythme" />
 
-        <TextView
-            android:id="@+id/tv_display_deniv_positif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_display_rythme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/tv_deniveleNegatif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Denivelé Negatif" />
+            <TextView
+                android:id="@+id/tv_denivelePositif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Denivelé Positif" />
 
-        <TextView
-            android:id="@+id/tv_display_deniv_negatif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </GridLayout>
+            <TextView
+                android:id="@+id/tv_display_deniv_positif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_deniveleNegatif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Denivelé Negatif" />
+
+            <TextView
+                android:id="@+id/tv_display_deniv_negatif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </GridLayout>
+
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"

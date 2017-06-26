@@ -22,7 +22,7 @@ public class RunningDataProcess {
 
     private long temps;
     private String date;
-    private float distance = 0f;
+    private double distance = 0f;
 
     public RunningDataProcess(long temps, String date, Context context) {
         this.performance = new Performance();
@@ -85,8 +85,13 @@ public class RunningDataProcess {
         int minute = new Double(rythmeMoy).intValue();
         int seconde = (int)((rythmeMoy-minute)*60);
 
-        performance.setRythmeMoyen_perf(minute*60 + seconde);
-        return "" + minute + "\'" + seconde + "\"";
+        if(vitesseMoy == 0.0){
+            performance.setRythmeMoyen_perf(0);
+            return "" + 0;
+        } else {
+            performance.setRythmeMoyen_perf(minute*60 + seconde);
+            return "" + minute + "\'" + seconde + "\"";
+        }
     }
 
     //Calcul Vitesse Moyenne

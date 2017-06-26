@@ -107,19 +107,9 @@ public class GPSService extends IntentService {
                     dbPosition.close();
             }
 
-            rapport = performance.getRapport(id_parcours, listPosition);
-
-            Log.i("DevApp", "GPSService - temps (s): " + rapport.getTemps_perf());
-            Log.i("DevApp", "GPSService - distance (Km) : " + rapport.getDistance_perf());
-            Log.i("DevApp", "GPSService - Vitesse Moyenne (Km/h) : " + rapport.getVitesseMoyenne_perf());
-            Log.i("DevApp", "GPSService - Rythme Moyen (seconde/Km) : " + rapport.getRythmeMoyen_perf());
-            Log.i("DevApp", "GPSService - Dénivelé : \nPositif : " + rapport.getDenivele_positif_perf()
-                    + "\nNegatif : " + rapport.getDenivele_negatif_perf());
-            Log.i("DevApp", "GPSService - Date: " + rapport.getDate_perf());
-
             //Sauvegarde en base du rapport ! update de l'id_perf dans parcours !
+            rapport = performance.getRapport(id_parcours, listPosition);
             saveRapport(id_parcours);
-            Log.i("DevApp", "Terminée !");
 
             //Stop le service
             //TODO Appel l'activité du rapport !

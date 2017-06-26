@@ -1,7 +1,6 @@
 package fr.anaralith.freerunning.view;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -45,7 +44,7 @@ public class RunningActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connexion);
+        setContentView(R.layout.activity_running);
 
         dlGPS = new DataLocationGPS(this);
 
